@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/test/product-api")
 public class ProductController {
     private ProductService productService;
-    private final Logger LOGGER = LoggerFactory.getLogger(HelloController.class);
+
 
     @Autowired
     public ProductController(ProductService productService) {
@@ -23,16 +23,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "/product/{productId}")
-    public ProductDTO getProduct(@PathVariable String productId) {
-        long startTime = System.currentTimeMillis();
-        LOGGER.info("[ProductController] perform {} of DEMO API","getProduct");
 
-        ProductDTO productDTO = productService.getProduct(productId);
-        LOGGER.info("[ProductController] Response :: productId = {}, productName ={} , productPrice = {} , productStock = {}",
-                productDTO.getProductId(),productDTO.getProductName(),productDTO.getProductPrice(),productDTO.getProductStock());
-
-        return productDTO;
-    }
 
     /* Validation 적용 이전
     @PostMapping
