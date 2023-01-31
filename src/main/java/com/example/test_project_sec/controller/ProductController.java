@@ -3,19 +3,24 @@ package com.example.test_project_sec.controller;
 import com.example.test_project_sec.common.Constants;
 import com.example.test_project_sec.common.exception.DemoException;
 import com.example.test_project_sec.data.dto.ProductDTO;
+import com.example.test_project_sec.data.entity.ProductEntity;
 import com.example.test_project_sec.data.service.ProductService;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
 @RestController
-@RequestMapping("/test/product-api")
+@RequestMapping("/test_sec/product-api")
+@EnableWebMvc
 public class ProductController {
     private ProductService productService;
-
+    private final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
 
     @Autowired
     public ProductController(ProductService productService) {
@@ -23,7 +28,16 @@ public class ProductController {
     }
 
     @GetMapping(value = "/product/{productId}")
+    public ProductDTO getProduct(@PathVariable String productId) {
+        long startTime = System.currentTimeMillis();
+        LOGGER.info("[ProductController] perform {} of DEMO API","getProduct");
 
+        ProductDTO productDTO = productService.getProduct(productId);
+        LOGGER.info("[ProductController] Response :: productId = {}, productName ={} , productPrice = {} , productStock = {}",
+                productDTO.getProductId(),productDTO.getProductName(),productDTO.getProductPrice(),productDTO.getProductStock());
+
+        return productDTO;
+    }
 
     /* Validation 적용 이전
     @PostMapping
@@ -35,7 +49,7 @@ public class ProductController {
         return productService.saveProduct(productId, productName, productPrice, productStock);
     }*/
 
-    @PostMapping
+    @PostMapping(value="/product")
     public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO productDto) {
         String productId = productDto.getProductId();
         String productName = productDto.getProductName();

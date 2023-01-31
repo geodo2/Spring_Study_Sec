@@ -2,10 +2,10 @@ package com.example.test_project_sec.data.entity;
 
 import com.example.test_project_sec.data.dto.ProductDTO;
 import jakarta.persistence.Entity;
+
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
-
 @Entity
 @Getter
 @Setter
